@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/Apiserver/!svn/ver/318/branches/apinet1.0/apiserver/src/main/java/com/weizoom/apiserver/cluster/handler/codec
+END
+CompressDecoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/Apiserver/!svn/ver/318/branches/apinet1.0/apiserver/src/main/java/com/weizoom/apiserver/cluster/handler/codec/CompressDecoder.java
+END
+HttpTaskResultEncoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/Apiserver/!svn/ver/318/branches/apinet1.0/apiserver/src/main/java/com/weizoom/apiserver/cluster/handler/codec/HttpTaskResultEncoder.java
+END
+TaskResultEncoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/Apiserver/!svn/ver/318/branches/apinet1.0/apiserver/src/main/java/com/weizoom/apiserver/cluster/handler/codec/TaskResultEncoder.java
+END
+TaskEncoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/Apiserver/!svn/ver/318/branches/apinet1.0/apiserver/src/main/java/com/weizoom/apiserver/cluster/handler/codec/TaskEncoder.java
+END
+TaskResultDecoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/Apiserver/!svn/ver/318/branches/apinet1.0/apiserver/src/main/java/com/weizoom/apiserver/cluster/handler/codec/TaskResultDecoder.java
+END
+HttpTaskDecoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/Apiserver/!svn/ver/318/branches/apinet1.0/apiserver/src/main/java/com/weizoom/apiserver/cluster/handler/codec/HttpTaskDecoder.java
+END
+TaskDecoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/Apiserver/!svn/ver/318/branches/apinet1.0/apiserver/src/main/java/com/weizoom/apiserver/cluster/handler/codec/TaskDecoder.java
+END
+CompressEncoder.java
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/Apiserver/!svn/ver/318/branches/apinet1.0/apiserver/src/main/java/com/weizoom/apiserver/cluster/handler/codec/CompressEncoder.java
+END

@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+
+<project name="${artifact-id}" default="compile">
+	<!-- load property file -->
+	<property file="${basedir}/default.properties" />
+	
+	<!-- the normal classpath -->
+	<path id="classpath">
+		<pathelement location="${build.classes}"/>
+		<fileset dir="./">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<!-- the unit test classpath -->
+	<path id="test.classpath">
+		<pathelement location="${test.build.classes}" />
+		<pathelement location="${conf.dir}"/>
+		<pathelement location="${test.src.dir}"/>
+		<path refid="classpath"/>
+	</path>
+		
+	<!-- ====================================================== -->
+	<!-- show when we start this build                          -->
+	<!-- ====================================================== -->
+	<target name="show-build-date">
+		<tstamp>
+			<format property="build.time" pattern="MM/dd/yyyy hh:mm:ss aa"/>
+		</tstamp>
+		<echo message="build project ${ant.project.name} at time : ${build.time}" />
+	</target>
+	
+	<!-- ====================================================== -->
+	<!-- Stuff needed by all targets                            -->
+	<!-- ====================================================== -->
+	<target name="init" depends="show-build-date">
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.classes}"/>
+
+		<mkdir dir="${test.build.dir}"/>
+		<mkdir dir="${test.build.classes}"/>
+	</target>
+
+	<!-- ====================================================== -->
+	<!-- Do ActiveJDBC instrumentation                          -->
+	<!-- ====================================================== -->
+	<target name="instrument">
+        <java classname="org.javalite.instrumentation.Main">
+            <sysproperty key="outputDirectory" value="${build.classes}"/>
+            <classpath refid="test.classpath"/>
+        </java>
+    </target>
+	
+	<!-- ====================================================== -->
+	<!-- Compile the Java files                                 -->
+	<!-- ====================================================== -->
+	<target name="compile" depends="compile-core, jar">
+		<echo message="========== finish building all for ${ant.project.name} ==========" />
+	</target>
+
+	<target name="compile-core" depends="init">
+		<javac 
+			encoding="${build.encoding}" 
+			srcdir="${src.dir}"
+			includes="com/**/*.java"
+			destdir="${build.classes}"
+			debug="${debug}"
+			optimize="${optimize}"
+			deprecation="${deprecation}"
+		>
+			<classpath refid="classpath"/>
+		</javac>
+		<copy todir="${build.classes}" >
+			<fileset dir="${src.dir}" includes="com/**/*.xml"/>
+		</copy>
+	</target>
+		
+	<target name="compile-test" depends="compile">
+		<javac 
+			encoding="${build.encoding}" 
+			srcdir="${test.src.dir}"
+			includes="com/**/*.java"
+			destdir="${test.build.classes}"
+			debug="${debug}"
+			deprecation="${deprecation}"
+		>
+			<classpath refid="test.classpath"/>
+		</javac>    
+	</target>
+	
+	<!-- ================================================================== -->
+	<!-- Make nutch.jar                                                     -->
+	<!-- ================================================================== -->
+	<target name="jar" depends="compile-core, instrument">
+		<jar jarfile="${build.dir}/${final.name}.jar" basedir="${build.classes}" />
+		<copy file="${build.dir}/${final.name}.jar" tofile="${basedir}/${final.name}.jar" />
+		<echo message="========== finish building core jar file for ${ant.project.name} ==========" />
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- Test                                                      -->
+	<!-- ================================================================== -->
+	<target name="test" depends="compile-test, instrument">
+		<delete dir="${test.build.data}"/>
+		<mkdir dir="${test.build.data}"/>
+		<delete dir="${test.core.report}"/>
+		<mkdir dir="${test.core.report}"/>
+		<delete dir="${test.core.result}"/>
+		<mkdir dir="${test.core.result}"/>
+
+		<junit printsummary="yes" haltonfailure="no" fork="yes" dir="${basedir}" errorProperty="tests.failed" failureProperty="tests.failed">
+			<classpath refid="test.classpath"/>
+			<formatter type="plain" />
+			<formatter type="xml" />
+			<batchtest todir="${test.core.result}" unless="testcase">
+				<fileset dir="${test.src.dir}" includes="com/**/*Test.java" excludes="org/**/${test.exclude}.java" />
+			</batchtest>
+		</junit>
+		<junitreport todir="${test.core.result}">
+			<fileset dir="${test.core.result}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${test.core.report}" />
+		</junitreport>
+
+		<fail if="tests.failed">Tests failed!</fail>
+	</target>
+	
+	<!-- ================================================================== -->
+	<!-- Clean.  Delete the build files, and their directories              -->
+	<!-- ================================================================== -->
+	<target name="clean">
+		<delete file="${final.name}.jar" />
+		<delete dir="${build.dir}"/>
+		<delete dir="bin" />
+		<delete dir="${dist.dir}" />
+		<delete file="${tar.target}" />
+	</target>
+	
+	<!-- ================================================================== -->
+	<!-- Clean.  Delete the build files, and their directories              -->
+	<!-- ================================================================== -->
+	<target name="dist" depends="clean, compile">
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}/logs" />
+		<copy todir="${dist.dir}">
+			<fileset dir="${basedir}">
+				<include name="status.sh" />
+				<include name="operation.sh" />
+				<include name="conf/**/*" />
+				<include name="lib/**/*" />
+				<include name="logs/*" />
+				<include name="operation/" />
+			</fileset>
+			<fileset dir="${build.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+		
+		<!-- call python to modify file -->
+		<exec executable="python">
+			<arg value="dist.py" />
+		</exec>
+			
+		<tar destfile="${tar.target}" compression="gzip">
+			<tarfileset dir="${dist.dir}" prefix="${tar.prefix}" mode="${tar.mode}" />
+		</tar>
+		<echo message="========== finish building distribution for ${ant.project.name} ==========" />		
+	</target>	
+</project>

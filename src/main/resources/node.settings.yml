@@ -1,0 +1,32 @@
+#==================================================================
+# node 配置
+
+#
+#===================================================================
+
+#local 本地的ip
+local.node.host:192.168.1.16
+
+#local 本地的port
+local.node.port:8889
+
+#task executor的数量，默认为cpu的个数的2倍
+local.node.task.executors.size:1
+
+#localNode中的channel最大可用内存大小，默认为虚拟机可使用的最大内存
+#local.node.channel.max.memory.byte.size:2595
+
+#localNode中的除channel以外其他元素最大可用内存大小，默认为虚拟机可使用的最大内存
+#local.node.total.memory.byte.size:2595
+
+#loclNode中Channel中使用的编码方式，默认为utf-8
+#注意，该设置必须同Cluster中Channel中的统一
+#local.node.channel.charset:utf8
+
+#localNode中处理请求的worker个数，默认为cpu的核的个数 × 2
+#如果所处理的任务没有io等待，那么使用默认即可，否则建议适当调大该值，在io等待时仍然
+#能处理接收到的任务，提高CPU的利用率
+#local.node.workers.count:5
+
+#localNode向cluster注册最大的重试连接次数,默认为10
+#local.node.max.reconnect.cluster.times:10

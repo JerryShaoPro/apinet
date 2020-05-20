@@ -1,0 +1,51 @@
+#==================================================================
+# cluster的配置
+#
+#===================================================================
+
+#===================================================================
+#
+# cluster的配置信息
+#
+#===================================================================
+# cluster的host，默认为cluster.weizoom.com
+cluster.host:192.168.1.14
+
+# cluster 的port,默认为6396
+cluster.port:6396
+
+# cluster 的node注册host
+cluster.register.host:192.168.1.14
+
+# cluster 的node注册port，默认为3344
+cluster.register.port:3344
+
+#cluster的node数据交换的host
+cluster.data.exchange.host:192.168.1.14
+
+#cluster的node数据交换的port
+cluster.data.exchange.port:3115
+
+#task executor的数量，默认为cpu的个数的2倍
+#cluster.task.executors.size:128
+
+#cluster中的channel最大可用内存大小，默认为虚拟机可使用的最大内存
+#cluster.channel.max.memory.byte.size:259522560
+
+#cluster中的除channel以外其他元素最大可用内存大小，默认为虚拟机可使用的最大内存
+#cluster.total.memory.byte.size:259522560
+
+#cluster中处理请求的worker个数，默认为512
+#如果所处理的任务没有io等待，那么使用默认即可，否则建议适当调大该值，在io等待时仍然
+#能处理接收到的任务，提高CPU的利用率
+#cluster.workers.count:512
+
+#cluster ,Channel中使用的编码方式，默认为utf-8
+#cluster.channel.charset:utf8
+
+#cluter 提供的所有运维操作
+cluster.customerized.operators:
+
+#cluster 连接local的超时时间,默认是5000MS
+cluster.execute.timeout.ms:10000
+

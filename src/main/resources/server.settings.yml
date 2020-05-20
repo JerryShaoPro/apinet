@@ -1,0 +1,13 @@
+#==================================================================
+# Apiserver 配置
+
+# author:
+#===================================================================
+
+#端口配置
+#server.port:8898
+server.monitor.port:8899
+
+server.customerized.apis:
+	- com.jerryshao.apinet.apis.buildin.DummyApi
+	- com.jerryshao.apinet.apis.buildin.HelloApi

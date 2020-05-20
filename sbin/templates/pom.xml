@@ -1,0 +1,154 @@
+<!-- **************************************************************************
+#
+# Copyright (c) 2006-2012 Weizoom Corporation.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors: 
+#
+#   chuter
+#        
+#************************************************************************** --> 
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>${pacake-name}</groupId>
+	<artifactId>${artifact-id}</artifactId>
+	<version>${apiserver_new_version}</version>
+	<packaging>jar</packaging>
+
+	<name>${artifact-id}</name>
+
+	<description>
+	</description>
+
+	<properties>
+		<project.build.sourceEncoding>GBK</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compile.source>1.5</maven.compile.source>
+		<maven.compile.target>1.5</maven.compile.target>
+		<maven.compile.optimize>true</maven.compile.optimize>
+		<maven.compile.deprecation>true</maven.compile.deprecation>
+		
+		<!-- Libraries -->
+		<apiserver.version>${apiserver-new-version}</apiserver.version>
+	</properties>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources-filtered</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.atlassian.maven.plugins</groupId>
+					<artifactId>maven-clover2-plugin</artifactId>
+					<version>3.1.0</version>
+					<configuration>
+						<generateHtml>true</generateHtml>
+						<generateXml>true</generateXml>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.5</version>
+					<executions>
+						<execution>
+							<id>copy-resources</id>
+							<!-- here the phase you need -->
+							<phase>validate</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${basedir}/target/conf</outputDirectory>
+								<resources>
+									<resource>
+										<directory>${basedir}/src/main/resources</directory>
+										<filtering>true</filtering>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.8.1</version>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+			          <includes>
+			            <include>**/*.class</include>
+			          </includes>
+			        </configuration>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.8.1</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<dependencies>	
+		
+		<dependency>
+			<groupId>com.jerryshao.apinet</groupId>
+			<artifactId>apiserver</artifactId>
+			<version>${apiserver.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.jerryshao.apinet</groupId>
+			<artifactId>apiserver</artifactId>
+			<version>${apiserver.version}</version>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
+		
+	</dependencies>
+
+</project>

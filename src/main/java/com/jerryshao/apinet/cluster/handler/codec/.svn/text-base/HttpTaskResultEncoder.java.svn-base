@@ -1,0 +1,36 @@
+/**
+ * Copyright    : Copyright (c) 2006. Wintim Corp. All rights reserved
+ * File Summary : 
+ * Create time  : 2013-5-30
+ */
+package com.weizoom.apiserver.cluster.handler.codec;
+
+import org.apache.log4j.Logger;
+import org.jboss.netty.channel.Channel;
+import org.jboss.netty.channel.ChannelHandlerContext;
+import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
+
+import com.weizoom.apiserver.cluster.TaskResult;
+import com.wintim.common.util.LogFactory;
+
+/**
+ * <code>HttpTaskResultEncoder</code>是用于将<code>TaskResult</code>转换成httpResponse
+ * 的channelBuffer
+ * @author wuyadong
+ *
+ */
+public class HttpTaskResultEncoder extends OneToOneEncoder {
+	final static private Logger LOG = LogFactory.getLogger(HttpTaskResultEncoder.class);
+	
+	@Override
+	protected Object encode(ChannelHandlerContext ctx, Channel channel,
+			Object msg) throws Exception {
+		if (! (msg instanceof TaskResult)) {
+			return msg;
+		}
+		assert (msg instanceof TaskResult);
+		TaskResult executeResult = (TaskResult) msg;
+		LOG.info("get a task execute result: " + executeResult.toJson());
+		return executeResult.toHttpResponse();
+	}
+}
