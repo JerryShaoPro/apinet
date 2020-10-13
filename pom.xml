@@ -45,7 +45,7 @@
 		<jetty-continuation.version>7.5.0.v20110901</jetty-continuation.version>
 		<jetty-websocket.version>7.5.0.v20110901</jetty-websocket.version>
 			<!-- Libraries -->
-		<junit.version>4.8.2</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<log4j.version>1.2.16</log4j.version>
 		<slf4j.version>1.6.4</slf4j.version>
 		<slf4j-api.version>1.6.4</slf4j-api.version>
